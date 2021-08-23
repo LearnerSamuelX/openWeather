@@ -3,6 +3,7 @@ import './styles/App.css';
 import {useState,useEffect} from 'react';
 import Tracker from './services/Tracker'
 import StatsPanel from './components/StatsPanel'
+import Forecast from './components/Forecast'
 
 function App() {
   const[cityState,setCityState]=useState([])
@@ -11,6 +12,7 @@ function App() {
   const[minT,setMinT]=useState(0)
   const[meanT,setMeanT]=useState(0)
   const[modeT,setModeT]=useState(0)
+  const[fiveDayForeCast,setFiveDay]=useState([])
 
   useEffect(()=>{
 
@@ -25,10 +27,12 @@ function App() {
       setMinT(new_city.showMin())
       setMeanT(new_city.showMean())
       setModeT(new_city.showMode())
+      setFiveDay(new_city.fiveDay())
       console.log(maxT)
       console.log(minT)
       console.log(meanT)
       console.log(modeT)
+      console.log(fiveDayForeCast)
       
     }
   },[cityState,maxT])
@@ -67,7 +71,6 @@ function App() {
         //create an Instance of Tracker class, and store it in the cityState
         let weather_tracker = new Tracker(geo_info.city,geo_info.state,weather_collection)
         setCityState(cityState.concat(weather_tracker))
-
       }).catch((err)=>{
 
         //neglect error handling for now
@@ -98,6 +101,12 @@ function App() {
                 <StatsPanel name={'Maximum Temp'} temp={maxT}/>
                 <StatsPanel name={'Mean Temp'} temp={meanT}/>
                 <StatsPanel name={'Mode Temp'} temp={modeT}/>
+                <h4>5 Day Weather Forecast for {cityName}:</h4>
+                <div className='forecast-container'>
+                    {fiveDayForeCast.map((item,key)=>{
+                      return <Forecast date={item.dt}info={item.main.temp}/>
+                    })}
+                </div>
               </div>}
         </div>
     </div>

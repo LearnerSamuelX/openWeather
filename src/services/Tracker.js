@@ -68,7 +68,19 @@ class Tracker{
         }
 
         return Math.floor(mode_result-273.15)
+    }
 
+    fiveDay(){
+        let weather_collection = this.weather
+        let five_day_collection = []
+
+        for(let i=0;i<weather_collection.length;i=i+8){
+            let temp = weather_collection[i]
+            console.log(temp)
+            five_day_collection.push(temp)
+        }
+
+        return five_day_collection
     }
 }
 
