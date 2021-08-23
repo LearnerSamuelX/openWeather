@@ -1,9 +1,35 @@
 
 import './styles/App.css';
 import {useState,useEffect} from 'react';
+import Tracker from './services/Tracker'
 
 function App() {
   const[cityState,setCityState]=useState([])
+
+  const[maxT,setMaxT]=useState(0)
+  const[minT,setMinT]=useState(0)
+
+
+
+
+  useEffect(()=>{
+
+    if(cityState.length>0){
+      let lastElement = cityState.length-1
+      
+      //get the last element of the cityState array
+      let new_city = cityState[lastElement]
+      console.log(new_city)
+      let highestT = new_city.showMax()
+      let lowestT = new_city.showMin()
+      let meanT = new_city.showMean()
+      console.log(highestT)
+      console.log(lowestT)
+      console.log(meanT)
+
+      
+    }
+  },[cityState])
 
   async function dataParsing(geo_info){
     //normally we store this in .env
@@ -14,13 +40,13 @@ function App() {
     let response = await fetch(url,{
       method:'GET'
     })
-    let weather_info = await response.json()
-    return weather_info
+    return await response.json()
 }
 
   const handleSubmit=(e)=>{
     e.preventDefault()
     console.log('Inside handleSubmit')
+    setCityState([])
     let city_name = e.target.city.value
     let state_name = e.target.state.value
     
@@ -36,9 +62,13 @@ function App() {
         //an Array of 40 elements in it
         let weather_collection = res.list
 
-        //get access to tempeature: weather_collection[i].main.temp (.temp_max / temp_min)
-        console.log(weather_collection[0].main.temp)
+        //create an Instance of Tracker class, and store it in the cityState
+        let weather_tracker = new Tracker(geo_info.city,geo_info.state,weather_collection)
+        setCityState(cityState.concat(weather_tracker))
+
       }).catch((err)=>{
+
+        //neglect error handling for now
         console.log(err)
       })
     }

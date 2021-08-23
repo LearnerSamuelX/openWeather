@@ -3,9 +3,9 @@
 }
 
 .user-ui-container{
-  width:400px;
+  width:200px;
   /* construction */
-  border:1px solid rgb(131,131,131);
+  /* border:1px solid rgb(131,131,131); */
   /* construction */
   margin-left:auto;
   margin-right:auto;
