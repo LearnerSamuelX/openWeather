@@ -23,10 +23,12 @@ function App() {
       let highestT = new_city.showMax()
       let lowestT = new_city.showMin()
       let meanT = new_city.showMean()
+      let modeT = new_city.showMode()
       console.log(highestT)
       console.log(lowestT)
       console.log(meanT)
-
+      console.log(modeT)
+      
       
     }
   },[cityState])

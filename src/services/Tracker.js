@@ -46,6 +46,29 @@ class Tracker{
     showMode(){
         //is the value that appears most often in a set of data values
         console.log('Inside showMode()')
+        let temp_dict = {}
+        let weather_collection = this.weather
+        let highest = 0
+        let mode_result = 0
+        for (let i=0;i<weather_collection.length;i++){
+            let temp = weather_collection[i].main.temp
+            if(!temp_dict[temp]){
+                temp_dict[temp] = 1
+            }else{
+                temp_dict[temp] = temp_dict[temp]+1
+            }
+        }
+
+        for (let j=0;j<weather_collection.length;j++){
+            let temp = weather_collection[j].main.temp
+            if(temp_dict[temp]>=highest){
+                highest = temp_dict[temp]
+                mode_result = temp
+            }
+        }
+
+        return Math.floor(mode_result-273.15)
+
     }
 }
 
