@@ -2,15 +2,15 @@
 import './styles/App.css';
 import {useState,useEffect} from 'react';
 import Tracker from './services/Tracker'
+import StatsPanel from './components/StatsPanel'
 
 function App() {
   const[cityState,setCityState]=useState([])
-
+  const[cityName,setName]=useState('')
   const[maxT,setMaxT]=useState(0)
   const[minT,setMinT]=useState(0)
-
-
-
+  const[meanT,setMeanT]=useState(0)
+  const[modeT,setModeT]=useState(0)
 
   useEffect(()=>{
 
@@ -20,18 +20,18 @@ function App() {
       //get the last element of the cityState array
       let new_city = cityState[lastElement]
       console.log(new_city)
-      let highestT = new_city.showMax()
-      let lowestT = new_city.showMin()
-      let meanT = new_city.showMean()
-      let modeT = new_city.showMode()
-      console.log(highestT)
-      console.log(lowestT)
+      setName(new_city.city)
+      setMaxT(new_city.showMax())
+      setMinT(new_city.showMin())
+      setMeanT(new_city.showMean())
+      setModeT(new_city.showMode())
+      console.log(maxT)
+      console.log(minT)
       console.log(meanT)
       console.log(modeT)
       
-      
     }
-  },[cityState])
+  },[cityState,maxT])
 
   async function dataParsing(geo_info){
     //normally we store this in .env
@@ -90,7 +90,15 @@ function App() {
           </form>
         </div>
         <div className='info-panel'>
-
+            {cityState.length===0 && <div><p>No information Provided</p></div>}
+            {cityState.length>0&&
+              <div className='tracker-panel'>
+                <h4>5 Day Weather Stats for {cityName}:</h4>
+                <StatsPanel name={'Minimum Temp'} temp={minT}/>
+                <StatsPanel name={'Maximum Temp'} temp={maxT}/>
+                <StatsPanel name={'Mean Temp'} temp={meanT}/>
+                <StatsPanel name={'Mode Temp'} temp={modeT}/>
+              </div>}
         </div>
     </div>
   );
