@@ -39,7 +39,9 @@ function App() {
 
   async function dataParsing(geo_info){
     //normally we store this in .env
-    let api_key = '2357e9d6edbc1dca9778ffaae19a1bf0'
+    
+    let api_key = 'USE_YOUR_OWN_API_KEY'  //<--------Here, make sure you read README file.
+
     let city = geo_info.city
     let state = geo_info.state
     let url = `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${api_key}`
